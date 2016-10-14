@@ -1,0 +1,5 @@
+docs/*.bbl
+docs/*.aux
+docs/*.blg
+docs/*.log
+docs/*.tex
