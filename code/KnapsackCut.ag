@@ -1,0 +1,36 @@
+
+-- Two issues with extensibility here
+-- 1) need to redefine datatype, as right child of Choice is now a terminal
+--      another way to get the same result may be to explicitly 
+--      propagate attributes and use a @self attribute
+-- 2) need to give a second semantics for the same production
+--      which ideally would generate a second (alternative) semantic function
+data Knapsack | Sol       sol :: {[Int]}
+              | NoSol
+              | Choice   left :: Knapsack  right :: {Knapsack}
+              | Cut
+              | Call     chld :: Knapsack
+
+attr Knapsack
+  inh alts :: Knapsack
+  syn allsols use {(++)} {[]} :: {[[Int]]}
+
+sem Knapsack 
+    | Sol
+        lhs.allsols = [@sol]
+    | Choice
+        left.alts = @right 
+    | NoSol
+        lhs.allsols = @x.allsols
+        inst.x :: Knapsack
+        inst.x = @lhs.alts
+    | Cut
+        lhs.allsols = []
+    | Call
+        chld.alts = NoSol
+
+module{KnapsackCut}
+{}
+{
+import Scaffold
+}

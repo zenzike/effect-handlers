@@ -1,0 +1,29 @@
+
+include "Knapsack.ag"
+
+data Knapsack | Modify    trans :: {Int -> Int}     left :: Knapsack
+
+attr Knapsack
+  chn state :: {Int}
+
+sem Knapsack |  Modify
+  left.state = @trans @lhs.state 
+
+{-
+
+sem Knapsack | Choice 
+  left.state = @lhs.state + 1
+
+-- alternative semantics
+sem Knapsack | Choice
+  left.state  = @lhs.state + 1
+  right.state = @lhs.state + 1
+
+
+-}
+
+module {KnapsackState}
+{}
+{
+}
+

@@ -1,0 +1,32 @@
+
+-- 'open' the program datatype
+data Program a | Leaf   val :: {a}
+
+-- declare non-determinism effect 'allsols'
+attr Program
+  syn allsols use {++} {[]} :: {[@a]}
+
+-- define its semantics
+sem  Program | Leaf     lhs.allsols = [@val] -- "terminal symbol" val
+
+-- second syntactic construct for non-determinism
+data Program | Fail
+-- semantics of Fail are infered from the USE rule above 
+-- default value [] chosen when there is no definition for attribute allsols
+
+data Program | Choice   left  :: Program 
+                        right :: Program
+
+-- semantics of Choice can be infered from the USE rule as well
+-- the USE rule would translate into "foldr (++) [] [@left.allsocs,@right.allsocs]"
+-- for sake of clarity I give explicit definition below
+sem  Program | Choice   lhs.allsols = @left.allsols ++ @right.allsols
+
+-- Now the Haskell program that creates a syntax tree and evaluates it
+{
+
+knapsack :: Int -> [Int] -> Program
+knapsack w vs | w <  0 = Fail
+              | w == 0
+
+}

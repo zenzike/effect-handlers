@@ -1,0 +1,22 @@
+
+data Knapsack | Sol       sol :: {[Int]}
+              | NoSol
+              | Choice   left :: Knapsack   right :: Knapsack
+
+attr Knapsack
+  syn allsols use {(++)} {[]} :: {[[Int]]}
+
+sem  Knapsack | Sol 
+  lhs.allsols = [@sol]
+
+-- Haskell stuff
+module {Knapsack}
+{}
+{
+}
+{
+showKnapsack :: Knapsack -> String
+showKnapsack (Sol ls) = show ls
+showKnapsack NoSol    = "x"
+showKnapsack (Choice l r) = "(" ++ showKnapsack l ++ "," ++ showKnapsack r ++ ")"
+}
