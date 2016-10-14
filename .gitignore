@@ -1,3 +1,4 @@
+docs/*.ptb
 docs/*.bbl
 docs/*.aux
 docs/*.blg
